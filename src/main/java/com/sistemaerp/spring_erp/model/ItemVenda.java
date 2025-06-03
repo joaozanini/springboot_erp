@@ -28,6 +28,10 @@ public class ItemVenda {
 
     // Constructors
 
+
+    public ItemVenda() {
+    }
+
     public ItemVenda(Long id, Produto produto, int quantidade, Venda venda) {
         this.id = id;
         this.produto = produto;

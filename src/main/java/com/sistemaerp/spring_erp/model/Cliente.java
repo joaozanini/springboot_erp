@@ -22,7 +22,6 @@ public class Cliente {
     // Constructors
 
     public Cliente() {
-
     }
 
     public Cliente(long id, String nome, String email, User user) {
@@ -58,11 +57,11 @@ public class Cliente {
         this.email = email;
     }
 
-    public User getUser() {
+    public User getIdUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setIdUser(User user) {
         this.user = user;
     }
 }

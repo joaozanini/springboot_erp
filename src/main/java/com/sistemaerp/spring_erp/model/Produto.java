@@ -26,6 +26,10 @@ public class Produto {
 
     // Constructors
 
+
+    public Produto() {
+    }
+
     public Produto(Long id, String nome, BigDecimal preco, Long codigo, User user) {
         this.id = id;
         this.nome = nome;

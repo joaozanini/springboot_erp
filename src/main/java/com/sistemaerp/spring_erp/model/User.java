@@ -19,6 +19,9 @@ public class User {
 
     // Constructors
 
+    public User() {
+    }
+
     public User(Long id, String nome, String email, String senha) {
         this.id = id;
         this.nome = nome;
