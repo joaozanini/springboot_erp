@@ -18,9 +18,11 @@ public class Venda {
     @OneToMany(mappedBy = "venda", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItemVenda> itens = new ArrayList<>();
 
-    public Venda() {
-        this.data = LocalDate.now();
-    }
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "idCliente")
+    private Cliente cliente;
+
+    // methods
 
     public void adicionarItem(ItemVenda item) {
         item.setVenda(this);
@@ -29,10 +31,15 @@ public class Venda {
 
     // Constructors
 
-    public Venda(Long id, LocalDate data, List<ItemVenda> itens) {
+    public Venda() {
+        this.data = LocalDate.now();
+    }
+
+    public Venda(Long id, LocalDate data, List<ItemVenda> itens, Cliente cliente) {
         this.id = id;
         this.data = data;
         this.itens = itens;
+        this.cliente = cliente;
     }
 
 
@@ -60,5 +67,13 @@ public class Venda {
 
     public void setItens(List<ItemVenda> itens) {
         this.itens = itens;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 }
