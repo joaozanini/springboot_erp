@@ -3,11 +3,10 @@ package com.sistemaerp.spring_erp.model;
 import jakarta.persistence.*;
 
 @Entity
-public class Cliente {
-
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(nullable = false, length = 100)
     private String nome;
@@ -15,30 +14,25 @@ public class Cliente {
     @Column(nullable = false, length = 100)
     private String email;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "idUser", referencedColumnName = "id")
-    private User user;
+    @Column(nullable = false, length = 100)
+    private String senha;
 
     // Constructors
 
-    public Cliente() {
-
-    }
-
-    public Cliente(long id, String nome, String email, User user) {
+    public User(Long id, String nome, String email, String senha) {
         this.id = id;
         this.nome = nome;
         this.email = email;
-        this.user = user;
+        this.senha = senha;
     }
 
     // Getters e Setters
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -58,11 +52,11 @@ public class Cliente {
         this.email = email;
     }
 
-    public User getUser() {
-        return user;
+    public String getSenha() {
+        return senha;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 }
