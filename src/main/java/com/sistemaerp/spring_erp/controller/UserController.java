@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -14,30 +16,31 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
-    // GET /user → retorna os dados do próprio usuário autenticado
     @GetMapping
     public ResponseEntity<User> getPerfil(Authentication authentication) {
-        String email = authentication.getName(); // pega o email do usuário logado
+        String email = authentication.getName();
+        Optional<User> optionalUser = userRepository.findByEmail(email);
 
-        User user = userRepository.findByEmail(email);
-        if (user == null) {
+        if (optionalUser.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(user);
+
+        return ResponseEntity.ok(optionalUser.get());
     }
 
-    // PUT /user → atualiza os dados do próprio usuário autenticado
     @PutMapping
     public ResponseEntity<User> atualizarPerfil(@RequestBody User atualizacao, Authentication authentication) {
         String email = authentication.getName();
-        User user = userRepository.findByEmail(email);
+        Optional<User> optionalUser = userRepository.findByEmail(email);
 
-        if (user == null) {
+        if (optionalUser.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
 
+        User user = optionalUser.get();
         user.setNome(atualizacao.getNome());
         user.setSenha(atualizacao.getSenha());
+
         return ResponseEntity.ok(userRepository.save(user));
     }
 }
