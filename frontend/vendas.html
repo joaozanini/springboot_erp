@@ -6,22 +6,43 @@
     <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-<h1>Lista de Vendas</h1>
 
-<table border="1">
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Data</th>
-        <th>Itens</th>
-        <th>Valor Total</th>
-        <th>Options</th>
-    </tr>
-    </thead>
-    <tbody id="tabela-vendas">
-    <!-- Vendas serão inseridas aqui via JS -->
-    </tbody>
-</table>
+    <div class="navbar">
+
+        <div><a href="dashboard.html"><img src="#" alt="fotinha do sys"></a></div>
+        
+        <nav>
+            <ul>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="clientes.html">Clientes</a></li>
+                <li><a href="produtos.html">Produtos</a></li>
+                <li><a href="vendas.html">Vendas</a></li>
+                <li><a href="user.html"><img src="https://t3.ftcdn.net/jpg/03/94/89/90/360_F_394899054_4TMgw6eiMYUfozaZU3Kgr5e0LdH4ZrsU.jpg" alt="pfp"></a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Data</th>
+                <th>Itens</th>
+                <th>Valor Total</th>
+                <th>Options</th>
+            </tr>
+        </thead>
+        <tbody id="tabela-vendas">
+            <tr>
+                <td>01</td>
+                <td>02/06/2006</td>
+                <td>Caneta</td>
+                <td>R$3,00</td>
+                <td>. _.</td>
+            </tr>
+        <!-- Vendas serão inseridas aqui via JS -->
+        </tbody>
+    </table>
 
 <script src="js/vendas.js"></script>
 </body>

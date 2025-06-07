@@ -1,5 +1,6 @@
 package com.sistemaerp.spring_erp.security;
 
+import com.sistemaerp.spring_erp.security.filter.JwtCookieFilter;
 import com.sistemaerp.spring_erp.security.filter.JwtFilter;
 import com.sistemaerp.spring_erp.service.CustomUserDetailsService;
 import jakarta.servlet.http.HttpServletResponse;
@@ -61,4 +62,23 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        return http
+                .csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/auth/**").permitAll()
+                        .anyRequest().authenticated()
+                )
+                .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .addFilterBefore(jwtCookieFilter(), UsernamePasswordAuthenticationFilter.class)
+                .build();
+    }
+
+    @Bean
+    public JwtCookieFilter jwtCookieFilter() {
+        return new JwtCookieFilter();
+    }
+
 }

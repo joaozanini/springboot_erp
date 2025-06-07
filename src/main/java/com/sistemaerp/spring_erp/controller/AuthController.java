@@ -1,11 +1,13 @@
 package com.sistemaerp.spring_erp.controller;
 
-import com.sistemaerp.spring_erp.dto.UserLoginDTO;
-import com.sistemaerp.spring_erp.dto.UserTokenDTO;
 import com.sistemaerp.spring_erp.security.JwtUtil;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseCookie;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.*;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,11 +21,25 @@ public class AuthController {
     private JwtUtil jwtUtil;
 
     @PostMapping("/login")
-    public UserTokenDTO login(@RequestBody UserLoginDTO loginDTO) {
-        UsernamePasswordAuthenticationToken token =
-                new UsernamePasswordAuthenticationToken(loginDTO.getEmail(), loginDTO.getSenha());
-        authManager.authenticate(token);
-        String jwt = jwtUtil.generateToken(loginDTO.getEmail());
-        return new UserTokenDTO(jwt);
+    public ResponseEntity<?> login(@RequestBody AuthRequest request, HttpServletResponse response) {
+        Authentication authentication = authManager.authenticate(
+                new UsernamePasswordAuthenticationToken(request.getEmail(), request.getSenha())
+        );
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        String jwt = jwtUtil.generateToken(authentication);
+
+        ResponseCookie cookie = ResponseCookie.from("jwt", jwt)
+                .httpOnly(true)
+                .secure(true) // use apenas em HTTPS
+                .path("/")
+                .maxAge(24 * 60 * 60) // 1 dia
+                .sameSite("Lax")
+                .build();
+
+        response.addHeader("Set-Cookie", cookie.toString());
+
+        return ResponseEntity.ok().build(); // ou retornar dados do usuário, se quiser
     }
-}
+
